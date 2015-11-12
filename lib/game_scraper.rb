@@ -48,6 +48,11 @@ module GameScraper
       value[2] = value[2].to_f
       value.delete_at(4)
     end
-    games
+
+    games.each do |key, value|
+      # new_game = Game.new(date_time: "2015, #{value[0][0..1]}, #{value[0][3..4]}, #{value[0][6].to_i + 9}")
+      new_game = Game.new(spread_for_away_team: value[2])
+      new_game.save
+    end
   end
 end

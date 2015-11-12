@@ -11,11 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151109165441) do
+ActiveRecord::Schema.define(version: 20151112072109) do
 
   create_table "games", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.datetime "date_time"
+    t.string   "home_team"
+    t.string   "away_team"
+    t.string   "favorite"
+    t.string   "underdog"
+    t.decimal  "spread_for_away_team"
+    t.integer  "week"
   end
 
 end

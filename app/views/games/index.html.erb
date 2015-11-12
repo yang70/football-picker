@@ -1,6 +1,4 @@
 <h1>Game list</h1>
-<% @games_hash.each do |key, value| %>
-  <h2>Game <%= key %></h2>
-  <p>Date/Time: <%= value[0] %></p>
-  <p>Teams: <%= value[1] %> <%= value[2] %> <%= value[3] %></p>
+<% @games.each do |game| %>
+  <p><%= game.spread_for_away_team %></p>
 <% end %>

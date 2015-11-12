@@ -2,6 +2,7 @@ class GamesController < ApplicationController
   include GameScraper
 
   def index
-    @games_hash = get_games
+    get_games
+    @games = Game.all
   end
 end
