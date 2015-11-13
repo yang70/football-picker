@@ -1,0 +1,21 @@
+<h1>Week <%= @week.week %></h1>
+<% if Rails.application.config.current_week > @week.week %>
+  <% @games.each do |key, value| %>
+    <h3>Game <%= key %></h3>
+    <table>
+      <tr>
+        <td><%= value[0] %></td>
+        <td><%= value[1] %></td>
+      </tr>
+      <tr>
+        <td><%= value[2] %></td>
+        <td><%= value[3] %></td>
+      </tr>
+    </table>
+  <% end %>
+<% else %>
+  <% @games.each do |game| %>
+    <h3><%= game.away_team %> <%= game.spread_for_away_team %> at <%= game.home_team %></h3>
+    <p><%= game.date_time.to_s(:game_time) %></p>
+  <% end %>
+<% end %>
