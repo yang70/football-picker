@@ -1,5 +1,0 @@
-<h1>Game list</h1>
-<% @games.each do |game| %>
-  <h3><%= game.away_team %> <%= game.spread_for_away_team %> at <%= game.home_team %></h3>
-  <p><%= game.date_time.to_s(:game_time) %></p>
-<% end %>
