@@ -6,6 +6,7 @@ class WeeksController < ApplicationController
   end
 
   def show
+    # get_games
     @week = Week.find(params[:id])
     @games = @week.games
   end
