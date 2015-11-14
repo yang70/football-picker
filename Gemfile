@@ -12,6 +12,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'capybara'
 gem 'poltergeist'
 gem 'pry-rails'
+gem 'devise'
 
 group :development, :test do
   gem 'byebug'
