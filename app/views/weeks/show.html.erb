@@ -15,5 +15,34 @@
   <% else %>
     <h3><%= game.away_team %> <%= game.spread_for_away_team %> at <%= game.home_team %></h3>
     <p><%= game.date_time.to_s(:game_time) %></p>
+    <strong>Your pick: </strong>
+    <div id="<%= dom_id(@game_picks[game]) %>">
+      <% if @game_picks[game].winner.nil? %>
+        <p id="winner_<%= dom_id(@game_picks[game]) %>">You haven't made your pick yet!</p>
+      <% else %>
+        <p id="winner_<%= dom_id(@game_picks[game]) %>"><%= @game_picks[game].winner %></p>
+      <% end %>
+      <%= link_to "Update Pick", edit_pick_path(@game_picks[game]), remote: true %>
+    </div>
+    <div id="edit_<%= dom_id(@game_picks[game]) %>" class="hidden">
+      <%= form_for @game_picks[game], remote: true do |f| %>
+        <% if @game_picks[game].errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@game_picks[game].errors.count, "error") %> prohibited
+                                                  this game_picks[game] from being saved:</h2>
+
+            <ul class="field_with_errors">
+            <%= @game_picks[game].errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <%= f.select :winner, ["#{game.home_team}", "#{game.away_team}"] %>
+
+        <%= f.submit %>
+      <% end %>
+    </div>
   <% end %>
 <% end %>

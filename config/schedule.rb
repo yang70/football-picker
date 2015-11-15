@@ -19,6 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every :saturday, at: "7:24 PM" do
+every :saturday, at: "1955" do
   runner "Week.puts_it"
 end

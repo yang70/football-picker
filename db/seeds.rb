@@ -60,3 +60,5 @@ end
     week.games.create!(away_team: value[0], away_score: value[1], home_team: value[2], home_score: value[3])
   end
 end
+
+User.create!(email: "matt@example.com", password: "password", password_confirmation: "password")

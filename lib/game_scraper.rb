@@ -131,4 +131,18 @@ module GameScraper
     end
     games
   end
+
+  def create_blank_picks
+    current_week = Rails.application.config.current_week
+
+    current_games = Game.where(week_id: current_week)
+
+    users = User.all
+
+    users.each do |user|
+      current_games.each do |game|
+        user.picks.create(winner: nil, game_id: game.id, week_id: current_week, user: user)
+      end
+    end
+  end
 end
