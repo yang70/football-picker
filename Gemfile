@@ -13,6 +13,7 @@ gem 'capybara'
 gem 'poltergeist'
 gem 'pry-rails'
 gem 'devise'
+gem 'whenever', :require => false
 
 group :development, :test do
   gem 'byebug'
