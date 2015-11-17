@@ -13,7 +13,11 @@ Capybara.default_driver = :poltergeist
   Week.create!(week: num)
 end
 
-current_week = Rails.application.config.current_week
+def get_current_week
+  start = Time.parse("2015-09-01 01:00:00 -800")
+
+  (Time.now.to_date - start.to_date).to_i / 7
+end
 
 def get_results(week)
 
@@ -50,6 +54,8 @@ def get_results(week)
   end
   games
 end
+
+current_week = get_current_week
 
 (1..(current_week - 1)).each do |num|
   week = Week.find_by(week: num)

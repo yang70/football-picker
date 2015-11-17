@@ -10,6 +10,13 @@ end
 Capybara.default_driver = :poltergeist
 
 module GameScraper
+
+  def get_current_week
+    start = Time.parse("2015-09-01 01:00:00 -800")
+
+    (Time.now.to_date - start.to_date).to_i / 7
+  end
+
   def remove_at(string)
     if string.split.include? "At"
       string_array = string.split
@@ -22,7 +29,7 @@ module GameScraper
 
   def get_games
 
-    week_number = Rails.application.config.current_week
+    week_number = get_current_week
 
     current_week = Week.find_by(week: week_number)
 
@@ -71,13 +78,13 @@ module GameScraper
       underdog = nil
 
       if value[1].split.include? "At"
-        home = value[3]
-        away = remove_at value[1]
-        spread = value[2]
-      else
-        home = value[1]
-        away = remove_at value[3]
+        away = value[3]
+        home = remove_at value[1]
         spread = -value[2]
+      else
+        away = value[1]
+        home = remove_at value[3]
+        spread = value[2]
       end
 
       if value[2] < 0
@@ -133,7 +140,7 @@ module GameScraper
   end
 
   def create_blank_picks
-    current_week = Rails.application.config.current_week
+    current_week = get_current_week
 
     current_games = Game.where(week_id: current_week)
 
