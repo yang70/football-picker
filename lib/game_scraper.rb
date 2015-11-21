@@ -208,7 +208,7 @@ module GameScraper
     games = Game.where(week_id: previous_week)
 
     games.each do |game|
-      if game.away_score + game.spread_for_away_team - game.away_score > 0
+      if game.away_score + game.spread_for_away_team - game.home_score > 0
         game.winner = game.away_team
         game.save
       elsif game.away_score + game.spread_for_away_team - game.away_score < 0
@@ -221,12 +221,47 @@ module GameScraper
     end
   end
 
-  # def process_user_picks(user)
-  #   previous_week = get_current_week - 1
+  def process_user_picks(user)
+    previous_week = get_current_week - 1
 
-  #   games = Game.where(week: previous_week)
-  #     pick = Pick.where('user_id= ? AND game_id= ?', user.id, game.id)
-  #     if pick.winner
-  #   end
-  # end
+    games = Game.where(week: previous_week)
+
+    games.each do |game|
+      pick = Pick.where('user_id= ? AND game_id= ?', user.id, game.id)[0]
+      if pick.winner.nil?
+        pick.correct = false
+        pick.save
+      elsif pick.winner == game.winner
+        pick.correct = true
+        pick.save
+      else
+        pick.correct = false
+        pick.save
+      end
+    end
+  end
+
+  def process_user_scores(user)
+    previous_week = get_current_week - 1
+
+    weekly_score = WeeklyScore.find_by(week_id: previous_week, user: user)
+
+    total_score = TotalScore.find_by(user: user)
+
+    games = Game.where(week: previous_week)
+
+    weekly_total = 0
+
+    games.each do |game|
+      pick = Pick.find_by(user: user, game_id: game.id)
+      if pick.winner && pick.winner == game.winner
+        weekly_total += 1
+      end
+    end
+
+    weekly_score.score = weekly_total
+    weekly_score.save
+    total_score.score += weekly_total
+    total_score.save
+  end
 end

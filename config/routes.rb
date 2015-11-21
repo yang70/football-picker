@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :total_scores, path: '/scores'
+  resources :weekly_scores
   resources :user_scores
   resources :picks
   devise_for :users

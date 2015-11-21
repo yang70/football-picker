@@ -1,0 +1,2 @@
+module TotalScoresHelper
+end
