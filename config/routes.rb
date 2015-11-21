@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :user_scores
   resources :picks
   devise_for :users
   resources :weeks

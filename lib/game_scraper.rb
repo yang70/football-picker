@@ -105,6 +105,41 @@ module GameScraper
 
   def get_results(week)
 
+    teams_hash = {
+      "Cardinals"  => "Arizona",
+      "Bears"      => "Chicago",
+      "Packers"    => "Green Bay",
+      "Giants"     => "NY Giants",
+      "Lions"      => "Detroit",
+      "Redskins"   => "Washington",
+      "Eagles"     => "Philadelphia",
+      "Steelers"   => "Pittsburgh",
+      "Rams"       => "St. Louis",
+      "49ers"      => "San Francisco",
+      "Browns"     => "Cleveland",
+      "Colts"      => "Indianapolis",
+      "Cowboys"    => "Dallas",
+      "Chiefs"     => "Kansas City",
+      "Chargers"   => "San Diego",
+      "Broncos"    => "Denver",
+      "Jets"       => "NY Jets",
+      "Patriots"   => "New England",
+      "Raiders"    => "Oakland",
+      "Titans"     => "Tennessee",
+      "Bills"      => "Buffalo",
+      "Vikings"    => "Minnesota",
+      "Falcons"    => "Atlanta",
+      "Dolphins"   => "Miami",
+      "Saints"     => "New Orleans",
+      "Bengals"    => "Cincinnati",
+      "Seahawks"   => "Seattle",
+      "Buccaneers" => "Tampa Bay",
+      "Panthers"   => "Carolina",
+      "Jaguars"    => "Jacksonville",
+      "Ravens"     => "Baltimore",
+      "Texans"     => "Houston"
+    }
+
     away_teams  = []
     home_teams  = []
     away_scores = []
@@ -117,11 +152,11 @@ module GameScraper
     visit "http://espn.go.com/nfl/scoreboard/_/year/2015/seasontype/2/week/#{week}"
 
     all(".away .away div h2").each do |away_team|
-      away_teams << away_team.text
+      away_teams << teams_hash[away_team.text]
     end
 
     all(".home .home div h2").each do |home_team|
-      home_teams << home_team.text
+      home_teams << teams_hash[home_team.text]
     end
 
     all(".away .total span").each do |away_score|
@@ -152,4 +187,46 @@ module GameScraper
       end
     end
   end
+
+  def get_previous_week_results
+    previous_week = get_current_week - 1
+
+    results = get_results(previous_week)
+
+    results.each do |key, value|
+      game = Game.where('home_team= ? AND week_id= ?', value[2], previous_week)[0]
+      game.away_score = value[1]
+      game.save
+      game.home_score = value[3]
+      game.save
+    end
+  end
+
+  def determine_spread_winners
+    previous_week = get_current_week - 1
+
+    games = Game.where(week_id: previous_week)
+
+    games.each do |game|
+      if game.away_score + game.spread_for_away_team - game.away_score > 0
+        game.winner = game.away_team
+        game.save
+      elsif game.away_score + game.spread_for_away_team - game.away_score < 0
+        game.winner = game.home_team
+        game.save
+      else
+        game.winner = "Push"
+        game.save
+      end
+    end
+  end
+
+  # def process_user_picks(user)
+  #   previous_week = get_current_week - 1
+
+  #   games = Game.where(week: previous_week)
+  #     pick = Pick.where('user_id= ? AND game_id= ?', user.id, game.id)
+  #     if pick.winner
+  #   end
+  # end
 end

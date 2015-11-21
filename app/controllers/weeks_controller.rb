@@ -8,6 +8,8 @@ class WeeksController < ApplicationController
   end
 
   def show
+    # get_previous_week_results
+    # determine_spread_winners
     # get_games
     # create_blank_picks
     @week = Week.find(params[:id])

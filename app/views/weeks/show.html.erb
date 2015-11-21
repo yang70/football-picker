@@ -11,18 +11,35 @@
         <td><%= game.home_team %></td>
         <td><%= game.home_score %></td>
       </tr>
+      <tr>
+        <td><strong>Spread: </strong></td>
+        <td><%= game.away_team %> <%= game.spread_for_away_team %></td>
+      </tr>
+      <tr>
+        <td><strong>Spread winner: </strong></td>
+        <td><%= game.winner %></td>
+      </tr>
     </table>
   <% else %>
     <h3><%= game.away_team %> <%= game.spread_for_away_team %> at <%= game.home_team %></h3>
     <p><%= game.date_time.to_s(:game_time) %></p>
     <strong>Your pick: </strong>
     <div id="<%= dom_id(@game_picks[game]) %>">
-      <% if @game_picks[game].winner.nil? %>
-        <p id="winner_<%= dom_id(@game_picks[game]) %>">You haven't made your pick yet!</p>
+      <% if Time.now > game.date_time %>
+        <% if @game_picks[game].winner.nil? %>
+          <p>Too late, this game has started!</p>
+        <% else %>
+          <p><%= @game_picks[game].winner %></p>
+          <p><strong>*Pick locked, game has already started*</strong></p>
+        <% end %>
       <% else %>
-        <p id="winner_<%= dom_id(@game_picks[game]) %>"><%= @game_picks[game].winner %></p>
+        <% if @game_picks[game].winner.nil? %>
+          <p id="winner_<%= dom_id(@game_picks[game]) %>">You haven't made your pick yet!</p>
+        <% else %>
+          <p id="winner_<%= dom_id(@game_picks[game]) %>"><%= @game_picks[game].winner %></p>
+        <% end %>
+        <%= link_to "Update Pick", edit_pick_path(@game_picks[game]), remote: true %>
       <% end %>
-      <%= link_to "Update Pick", edit_pick_path(@game_picks[game]), remote: true %>
     </div>
     <div id="edit_<%= dom_id(@game_picks[game]) %>" class="hidden">
       <%= form_for @game_picks[game], remote: true do |f| %>
