@@ -14,6 +14,8 @@ class WeeksController < ApplicationController
     # create_blank_picks
     # process_user_picks current_user
     # process_user_scores current_user
+    get_results(2)
+    get_results(7)
     @week = Week.find(params[:id])
     @games = @week.games
     @weekly_score = WeeklyScore.find_by(week_id: @week, user: current_user).score
