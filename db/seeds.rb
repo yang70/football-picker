@@ -1,13 +1,6 @@
 require 'capybara'
-require 'capybara/poltergeist'
 
 include Capybara::DSL
-
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, js_errors: false)
-end
-
-Capybara.default_driver = :poltergeist
 
 (1..17).each do |num|
   Week.create!(week: num)
