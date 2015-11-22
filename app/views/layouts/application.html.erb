@@ -7,14 +7,16 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <div class="container">
 
-<%= render 'layouts/messages' %>
+    <%= render 'layouts/messages' %>
 
-<% if current_user %>
-  <h3><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></h3>
-<% end %>
+    <% if current_user %>
+      <h3><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></h3>
+    <% end %>
 
-<%= yield %>
+    <%= yield %>
 
+  </div>
 </body>
 </html>

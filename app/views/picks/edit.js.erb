@@ -1,2 +1,3 @@
 $('#pick_<%= @pick.id %>').hide();
 $('#edit_pick_<%= @pick.id %>').removeClass('hidden');
+$('#edit_pick_<%= @pick.id %>').parent().addClass('editing');
