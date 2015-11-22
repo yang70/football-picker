@@ -1,97 +1,94 @@
-require 'capybara'
-require 'capybara/poltergeist'
+# require 'capybara'
+# require 'capybara/poltergeist'
 
-include Capybara::DSL
+# include Capybara::DSL
 
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, js_errors: false)
-end
+# Capybara.register_driver :poltergeist do |app|
+#   Capybara::Poltergeist::Driver.new(app, js_errors: false)
+# end
 
-Capybara.default_driver = :poltergeist
+# Capybara.default_driver = :poltergeist
 
 # (1..17).each do |num|
 #   Week.create!(week: num)
 # end
 
-def get_current_week
-  start = Time.parse("2015-09-01 01:00:00 -800")
+# def get_current_week
+#   start = Time.parse("2015-09-01 01:00:00 -800")
 
-  (Time.now.to_date - start.to_date).to_i / 7
-end
+#   (Time.now.to_date - start.to_date).to_i / 7
+# end
 
-def get_results(week)
+# def get_results(week)
 
-  teams_hash = {
-    "Cardinals"  => "Arizona",
-    "Bears"      => "Chicago",
-    "Packers"    => "Green Bay",
-    "Giants"     => "NY Giants",
-    "Lions"      => "Detroit",
-    "Redskins"   => "Washington",
-    "Eagles"     => "Philadelphia",
-    "Steelers"   => "Pittsburgh",
-    "Rams"       => "St. Louis",
-    "49ers"      => "San Francisco",
-    "Browns"     => "Cleveland",
-    "Colts"      => "Indianapolis",
-    "Cowboys"    => "Dallas",
-    "Chiefs"     => "Kansas City",
-    "Chargers"   => "San Diego",
-    "Broncos"    => "Denver",
-    "Jets"       => "NY Jets",
-    "Patriots"   => "New England",
-    "Raiders"    => "Oakland",
-    "Titans"     => "Tennessee",
-    "Bills"      => "Buffalo",
-    "Vikings"    => "Minnesota",
-    "Falcons"    => "Atlanta",
-    "Dolphins"   => "Miami",
-    "Saints"     => "New Orleans",
-    "Bengals"    => "Cincinnati",
-    "Seahawks"   => "Seattle",
-    "Buccaneers" => "Tampa Bay",
-    "Panthers"   => "Carolina",
-    "Jaguars"    => "Jacksonville",
-    "Ravens"     => "Baltimore",
-    "Texans"     => "Houston"
-  }
+#   teams_hash = {
+#     "Cardinals"  => "Arizona",
+#     "Bears"      => "Chicago",
+#     "Packers"    => "Green Bay",
+#     "Giants"     => "NY Giants",
+#     "Lions"      => "Detroit",
+#     "Redskins"   => "Washington",
+#     "Eagles"     => "Philadelphia",
+#     "Steelers"   => "Pittsburgh",
+#     "Rams"       => "St. Louis",
+#     "49ers"      => "San Francisco",
+#     "Browns"     => "Cleveland",
+#     "Colts"      => "Indianapolis",
+#     "Cowboys"    => "Dallas",
+#     "Chiefs"     => "Kansas City",
+#     "Chargers"   => "San Diego",
+#     "Broncos"    => "Denver",
+#     "Jets"       => "NY Jets",
+#     "Patriots"   => "New England",
+#     "Raiders"    => "Oakland",
+#     "Titans"     => "Tennessee",
+#     "Bills"      => "Buffalo",
+#     "Vikings"    => "Minnesota",
+#     "Falcons"    => "Atlanta",
+#     "Dolphins"   => "Miami",
+#     "Saints"     => "New Orleans",
+#     "Bengals"    => "Cincinnati",
+#     "Seahawks"   => "Seattle",
+#     "Buccaneers" => "Tampa Bay",
+#     "Panthers"   => "Carolina",
+#     "Jaguars"    => "Jacksonville",
+#     "Ravens"     => "Baltimore",
+#     "Texans"     => "Houston"
+#   }
 
-  away_teams  = []
-  home_teams  = []
-  away_scores = []
-  home_scores = []
+#   away_teams  = []
+#   home_teams  = []
+#   away_scores = []
+#   home_scores = []
 
-  games = {}
+#   games = {}
 
-  game_number = 1
+#   game_number = 1
 
-  visit "http://espn.go.com/nfl/scoreboard/_/year/2015/seasontype/2/week/#{week}"
+#   visit "http://espn.go.com/nfl/scoreboard/_/year/2015/seasontype/2/week/#{week}"
 
-  all(".away .away div h2").each do |away_team|
-    away_teams << teams_hash[away_team.text]
-  end
+#   all(".away .away div h2").each do |away_team|
+#     away_teams << teams_hash[away_team.text]
+#   end
 
-  all(".home .home div h2").each do |home_team|
-    home_teams << teams_hash[home_team.text]
-  end
+#   all(".home .home div h2").each do |home_team|
+#     home_teams << teams_hash[home_team.text]
+#   end
 
-  all(".away .total span").each do |away_score|
-    away_scores << away_score.text.to_i
-  end
+#   all(".away .total span").each do |away_score|
+#     away_scores << away_score.text.to_i
+#   end
 
-  all(".home .total span").each do |home_score|
-    home_scores << home_score.text.to_i
-  end
+#   all(".home .total span").each do |home_score|
+#     home_scores << home_score.text.to_i
+#   end
 
-  away_teams.each_with_index do |away_team, index|
-    games[game_number] = [away_team, away_scores[index], home_teams[index], home_scores[index]]
-    game_number += 1
-  end
-  games
-end
-
-get_results(2)
-get_results(7)
+#   away_teams.each_with_index do |away_team, index|
+#     games[game_number] = [away_team, away_scores[index], home_teams[index], home_scores[index]]
+#     game_number += 1
+#   end
+#   games
+# end
 
 # current_week = get_current_week
 
