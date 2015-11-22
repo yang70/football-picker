@@ -264,4 +264,9 @@ module GameScraper
     total_score.score += weekly_total
     total_score.save
   end
+
+  def another_test
+    puts "+++++++++++++++++++++++++++++"
+    puts "Another scheduler test"
+  end
 end

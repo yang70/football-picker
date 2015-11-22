@@ -7,10 +7,4 @@ class User < ActiveRecord::Base
   has_many :picks
   has_many :weekly_scores
   has_one :total_score
-
-  def self.scheduler_test
-    puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-    puts "Scheduler test"
-    puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-  end
 end
