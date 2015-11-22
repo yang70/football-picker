@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151114073231) do
+ActiveRecord::Schema.define(version: 20151121173413) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "games", force: :cascade do |t|
     t.datetime "created_at",           null: false
@@ -25,9 +28,29 @@ ActiveRecord::Schema.define(version: 20151114073231) do
     t.integer  "week_id"
     t.integer  "home_score"
     t.integer  "away_score"
+    t.string   "winner"
   end
 
-  add_index "games", ["week_id"], name: "index_games_on_week_id"
+  add_index "games", ["week_id"], name: "index_games_on_week_id", using: :btree
+
+  create_table "picks", force: :cascade do |t|
+    t.string   "winner"
+    t.integer  "game_id"
+    t.integer  "week_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.boolean  "correct"
+  end
+
+  add_index "picks", ["user_id"], name: "index_picks_on_user_id", using: :btree
+
+  create_table "total_scores", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -44,8 +67,16 @@ ActiveRecord::Schema.define(version: 20151114073231) do
     t.datetime "updated_at",                          null: false
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "weekly_scores", force: :cascade do |t|
+    t.integer  "week_id"
+    t.integer  "user_id"
+    t.integer  "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "weeks", force: :cascade do |t|
     t.integer  "week"
@@ -53,4 +84,6 @@ ActiveRecord::Schema.define(version: 20151114073231) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "games", "weeks"
+  add_foreign_key "picks", "users"
 end

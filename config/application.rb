@@ -25,7 +25,5 @@ module FootballPicker
 
     # load /lib code
     config.autoload_paths += %W(#{config.root}/lib)
-
-    config.current_week = 10
   end
 end

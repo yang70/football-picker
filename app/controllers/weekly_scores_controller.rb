@@ -1,0 +1,2 @@
+class WeeklyScoresController < ApplicationController
+end

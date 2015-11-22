@@ -1,0 +1,2 @@
+class UserScoresController < ApplicationController
+end
