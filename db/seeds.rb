@@ -1,4 +1,4 @@
-require 'capybara'
+require 'capybara/rails'
 
 include Capybara::DSL
 
