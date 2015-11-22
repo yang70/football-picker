@@ -104,6 +104,8 @@ end
 
 User.create!(email: "matt@example.com", password: "password", password_confirmation: "password")
 
+User.create!(email: "hope@example.com", password: "password", password_confirmation: "password")
+
 User.create!(email: "user-1@example.com", password: "password", password_confirmation: "password")
 
 User.create!(email: "user-2@example.com", password: "password", password_confirmation: "password")
