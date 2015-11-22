@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :weekly_scores
   has_one :total_score
 
-  def scheduler_test
+  def self.scheduler_test
     puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
     puts "Scheduler test"
     puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
