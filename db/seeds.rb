@@ -9,9 +9,9 @@ end
 
 Capybara.default_driver = :poltergeist
 
-(1..17).each do |num|
-  Week.create!(week: num)
-end
+# (1..17).each do |num|
+#   Week.create!(week: num)
+# end
 
 def get_current_week
   start = Time.parse("2015-09-01 01:00:00 -800")
@@ -90,181 +90,196 @@ def get_results(week)
   games
 end
 
-current_week = get_current_week
+get_results(2)
+get_results(7)
 
-(1..(current_week - 1)).each do |num|
-  week = Week.find_by(week: num)
+# current_week = get_current_week
 
-  results = get_results(num)
+# (1..(current_week - 1)).each do |num|
+#   week = Week.find_by(week: num)
 
-  results.each do |key, value|
-    week.games.create!(away_team: value[0], away_score: value[1], home_team: value[2], home_score: value[3])
-  end
-end
+#   results = get_results(num)
 
-User.create!(email: "matt@example.com", password: "password", password_confirmation: "password")
+#   results.each do |key, value|
+#     week.games.create!(away_team: value[0], away_score: value[1], home_team: value[2], home_score: value[3])
+#   end
+# end
 
-User.create!(email: "hope@example.com", password: "password", password_confirmation: "password")
+# User.create!(email: "matt@example.com", password: "password", password_confirmation: "password")
 
-User.create!(email: "user-1@example.com", password: "password", password_confirmation: "password")
+# User.create!(email: "hope@example.com", password: "password", password_confirmation: "password")
 
-User.create!(email: "user-2@example.com", password: "password", password_confirmation: "password")
+# User.create!(email: "user-1@example.com", password: "password", password_confirmation: "password")
 
-def create_blank_picks(week)
-  games = Game.where(week_id: week)
+# User.create!(email: "user-2@example.com", password: "password", password_confirmation: "password")
 
-  users = User.all
+# def create_blank_picks(week)
+#   games = Game.where(week_id: week)
 
-  users.each do |user|
-    games.each do |game|
-      user.picks.create!(winner: nil, game_id: game.id, week_id: week, user: user)
-    end
-  end
-end
+#   users = User.all
 
-def determine_spread_winners(week)
-  games = Game.where(week_id: week)
+#   users.each do |user|
+#     games.each do |game|
+#       user.picks.create!(winner: nil, game_id: game.id, week_id: week, user: user)
+#     end
+#   end
+# end
 
-  games.each do |game|
-    if game.away_score + game.spread_for_away_team - game.home_score > 0
-      game.winner = game.away_team
-      game.save
-    elsif game.away_score + game.spread_for_away_team - game.away_score < 0
-      game.winner = game.home_team
-      game.save
-    else
-      game.winner = "Push"
-      game.save
-    end
-  end
-end
+# def determine_spread_winners(week)
+#   games = Game.where(week_id: week)
 
-(1..17).each do |num|
-  create_blank_picks(num)
-end
+#   games.each do |game|
+#     if game.away_score + game.spread_for_away_team - game.home_score > 0
+#       game.winner = game.away_team
+#       game.save
+#     elsif game.away_score + game.spread_for_away_team - game.away_score < 0
+#       game.winner = game.home_team
+#       game.save
+#     else
+#       game.winner = "Push"
+#       game.save
+#     end
+#   end
+# end
 
-def create_blank_weekly_scores(week)
-  users = User.all
+# (1..17).each do |num|
+#   create_blank_picks(num)
+# end
 
-  users.each do |user|
-    WeeklyScore.create!(week_id: week, user: user, score: 0)
-  end
-end
+# def create_blank_weekly_scores(week)
+#   users = User.all
 
-(1..17).each do |num|
-  create_blank_weekly_scores(num)
-end
+#   users.each do |user|
+#     WeeklyScore.create!(week_id: week, user: user, score: 0)
+#   end
+# end
 
-def create_blank_total_score(user)
-  TotalScore.create!(user: user)
-end
+# (1..17).each do |num|
+#   create_blank_weekly_scores(num)
+# end
 
-users = User.all
+# def create_blank_total_score(user)
+#   TotalScore.create!(user: user)
+# end
 
-users.each do |user|
-  create_blank_total_score(user)
-end
+# users = User.all
 
-def remove_at(string)
-  if string.split.include? "At"
-    string_array = string.split
-    string_array.delete_at(0)
-    string_array.join(' ')
-  else
-    string
-  end
-end
+# users.each do |user|
+#   create_blank_total_score(user)
+# end
 
-def get_games
+# def remove_at(string)
+#   if string.split.include? "At"
+#     string_array = string.split
+#     string_array.delete_at(0)
+#     string_array.join(' ')
+#   else
+#     string
+#   end
+# end
 
-  week_number = get_current_week
+# def get_games
 
-  current_week = Week.find_by(week: week_number)
+#   week_number = get_current_week
 
-  remove_header_array = %w(Date\ &\ Time Favorite Line Underdog Total)
+#   current_week = Week.find_by(week: week_number)
 
-  games = {}
+#   remove_header_array = %w(Date\ &\ Time Favorite Line Underdog Total)
 
-  info_array = []
+#   games = {}
 
-  game_number = 1
+#   info_array = []
 
-  visit "http://www.footballlocks.com/nfl_lines.shtml"
+#   game_number = 1
 
-  all("tbody tr td table tr td table tbody tr td span table tbody tr td").each do |info|
-      info_array << info.text unless remove_header_array.include?(info.text) || info.text == ''
-  end
+#   visit "http://www.footballlocks.com/nfl_lines.shtml"
 
-  info_array.delete_at(-1)
+#   all("tbody tr td table tr td table tbody tr td span table tbody tr td").each do |info|
+#       info_array << info.text unless remove_header_array.include?(info.text) || info.text == ''
+#   end
 
-  start = 0
-  finish = start + 4
+#   info_array.delete_at(-1)
 
-  while (start < info_array.length) do
-    game_array = []
+#   start = 0
+#   finish = start + 4
 
-    (start..finish).each do |index|
-      game_array << info_array[index]
-    end
+#   while (start < info_array.length) do
+#     game_array = []
 
-    games[game_number] = game_array
-    game_number += 1
-    start += 5
-    finish += 5
-  end
+#     (start..finish).each do |index|
+#       game_array << info_array[index]
+#     end
 
-  games.each do |key, value|
-    value[2] = value[2].to_f
-    value.delete_at(4)
-  end
+#     games[game_number] = game_array
+#     game_number += 1
+#     start += 5
+#     finish += 5
+#   end
 
-  games.each do |key, value|
-    home = nil
-    away = nil
-    spread = nil
-    favorite = nil
-    underdog = nil
+#   games.each do |key, value|
+#     value[2] = value[2].to_f
+#     value.delete_at(4)
+#   end
 
-    if value[1].split.include? "At"
-      away = value[3]
-      home = remove_at value[1]
-      spread = -value[2]
-    else
-      away = value[1]
-      home = remove_at value[3]
-      spread = value[2]
-    end
+#   games.each do |key, value|
+#     home = nil
+#     away = nil
+#     spread = nil
+#     favorite = nil
+#     underdog = nil
 
-    if value[2] < 0
-      favorite = remove_at value[1]
-      underdog = remove_at value[3]
-    elsif value[2] > 0
-      favorite = remove_at value[3]
-      underdog = remove_at value[1]
-    else
-      favorite = "Pick 'em"
-      underdog = "Pick 'em"
-    end
+#     if value[1].split.include? "At"
+#       away = value[3]
+#       home = remove_at value[1]
+#       spread = -value[2]
+#     else
+#       away = value[1]
+#       home = remove_at value[3]
+#       spread = value[2]
+#     end
 
-    add_games = current_week.games.new(spread_for_away_team: spread, home_team: home, away_team: away, favorite: favorite, underdog: underdog, date_time: "2015-#{value[0][0..1]}-#{value[0][3..4]} #{value[0][6].to_i + 9}")
-    add_games.save
-  end
-end
+#     if value[2] < 0
+#       favorite = remove_at value[1]
+#       underdog = remove_at value[3]
+#     elsif value[2] > 0
+#       favorite = remove_at value[3]
+#       underdog = remove_at value[1]
+#     else
+#       favorite = "Pick 'em"
+#       underdog = "Pick 'em"
+#     end
 
-get_games
+#     add_games = current_week.games.new(spread_for_away_team: spread, home_team: home, away_team: away, favorite: favorite, underdog: underdog, date_time: "2015-#{value[0][0..1]}-#{value[0][3..4]} #{value[0][6].to_i + 9}")
+#     add_games.save
+#   end
+# end
 
-def create_blank_picks
-  current_week = get_current_week
+# get_games
 
-  current_games = Game.where(week_id: current_week)
+# def create_blank_picks
+#   current_week = get_current_week
 
-  users = User.all
+#   current_games = Game.where(week_id: current_week)
 
-  users.each do |user|
-    current_games.each do |game|
-      user.picks.create(winner: nil, game_id: game.id, week_id: current_week, user: user)
-    end
-  end
-end
+#   users = User.all
 
-create_blank_picks
+#   users.each do |user|
+#     current_games.each do |game|
+#       user.picks.create(winner: nil, game_id: game.id, week_id: current_week, user: user)
+#     end
+#   end
+# end
+
+# def create_blank_picks(week)
+#   games = Game.where(week_id: week)
+
+#   users = User.all
+
+#   users.each do |user|
+#     games.each do |game|
+#       user.picks.create!(winner: nil, game_id: game.id, week_id: week, user: user)
+#     end
+#   end
+# end
+
+# create_blank_picks
