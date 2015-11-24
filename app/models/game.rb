@@ -174,18 +174,18 @@ class Game < ActiveRecord::Base
       add_games = current_week.games.new(spread_for_away_team: spread, home_team: home, away_team: away, favorite: favorite, underdog: underdog, date_time: "2015-#{value[0][0..1]}-#{value[0][3..4]} #{value[0][6].to_i + 9}")
       add_games.save
     end
+  end
 
-    def self.create_blank_picks
-      current_week = get_current_week
+  def self.create_blank_picks
+    current_week = get_current_week
 
-      current_games = Game.where(week_id: current_week)
+    current_games = Game.where(week_id: current_week)
 
-      users = User.all
+    users = User.all
 
-      users.each do |user|
-        current_games.each do |game|
-          user.picks.create(winner: nil, game_id: game.id, week_id: current_week, user: user)
-        end
+    users.each do |user|
+      current_games.each do |game|
+        user.picks.create(winner: nil, game_id: game.id, week_id: current_week, user: user)
       end
     end
   end
@@ -193,10 +193,9 @@ end
 
 
 def get_current_week
-  # start = Time.parse("2015-09-01 01:00:00 -800")
+  start = Time.parse("2015-09-01 01:00:00 -800")
 
-  # (Time.now.to_date - start.to_date).to_i / 7
-  12
+  (Time.now.to_date - start.to_date).to_i / 7
 end
 
 def remove_at(string)
