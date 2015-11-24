@@ -194,7 +194,7 @@ module GameScraper
     results = get_results(previous_week)
 
     results.each do |key, value|
-      game = Game.where('home_team= ? AND week_id= ?', value[2], previous_week)[0]
+      game = Game.find_by(home_team: value[2], week_id: previous_week)
       game.away_score = value[1]
       game.save
       game.home_score = value[3]
@@ -211,7 +211,7 @@ module GameScraper
       if game.away_score + game.spread_for_away_team - game.home_score > 0
         game.winner = game.away_team
         game.save
-      elsif game.away_score + game.spread_for_away_team - game.away_score < 0
+      elsif game.away_score + game.spread_for_away_team - game.home_score < 0
         game.winner = game.home_team
         game.save
       else
