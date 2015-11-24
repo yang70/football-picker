@@ -6,10 +6,10 @@ task :update_user_scores => :environment do
     # Game.get_previous_week_results
     # puts "Calculating spread winners"
     # Game.determine_spread_winners
-    puts "Evaluating user picks"
-    Game.process_user_picks
-    # puts "Processing user scores"
-    # Game.process_user_scores
+    # puts "Evaluating user picks"
+    # Game.process_user_picks
+    puts "Processing user scores"
+    Game.process_user_scores
     # puts "Retrieve next weeks games/spreads"
     # Game.get_games
     # puts "Create blank picks for current week"
