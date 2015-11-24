@@ -38,7 +38,7 @@ body {
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
-    max-width: 600px;
+    max-width: 400px;
 }
 
 .welcome-container {
@@ -54,4 +54,18 @@ body {
 
 .editing {
     background-color: #66e266;
+}
+
+.total-container {
+    max-width: 400px;
+}
+
+ol > li {
+    text-align: left;
+}
+
+ol {
+    width: 200px;
+    margin: auto;
+    float: inline-block;
 }

@@ -12,8 +12,8 @@ task :update_user_scores => :environment do
     # Game.process_user_scores
     # puts "Retrieve next weeks games/spreads"
     # Game.get_games
-    puts "Create blank picks for current week"
-    Game.create_blank_picks
+    # puts "Create blank picks for current week"
+    # Game.create_blank_picks
     # puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
   else
     puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
