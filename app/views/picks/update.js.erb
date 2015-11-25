@@ -1,3 +1,4 @@
 $('#edit_pick_<%= @pick.id %>').addClass('hidden');
+$('#edit_pick_<%= @pick.id %>').parent().removeClass('editing');
 $('#pick_<%= @pick.id %>').show();
 $('#winner_pick_<%= @pick.id %>').text("<%= @pick.winner %>");

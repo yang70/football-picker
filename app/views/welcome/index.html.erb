@@ -1,6 +1,8 @@
-<h1>Welcome to Football Picker!</h1>
-<% if current_user %>
-  <h3><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></h3>
-<% else %>
-  <h3><%= link_to "Sign In", new_user_session_path %></h3>
-<% end %>
+<div class="container welcome-container">
+  <h1>Welcome to Football Picker!</h1>
+  <% if current_user %>
+    <h3><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></h3>
+  <% else %>
+    <h3><%= link_to "Sign In", new_user_session_path, class: "btn btn-lg btn-default" %></h3>
+  <% end %>
+</div>
