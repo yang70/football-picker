@@ -1,3 +1,5 @@
+
+
 /*flash*/
 .alert-error {
     background-color: #f2dede;
@@ -30,22 +32,33 @@
 body {
     background-color: #F0F0F0;
     text-align: center;
+    padding-top: 70px;
+}
+
+.results-table {
+  text-align: right;
+  tr > td:nth-child(2) {
+    text-align: center;  }
 }
 
 .game-container {
     background-color: #6CADDE;
-    border-radius: 10px;
+    // border-radius: 10px;
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
-    max-width: 400px;
+    width: 300px;
+    height: 200px;
+    display: inline-block;
+    float: none;
+    /* inline-block space fix */
 }
 
 .welcome-container {
     background-color: #6CADDE;
     border-radius: 10px;
     max-width: 600px;
-    height: 600px;
+    height: 300px;
 }
 
 .btn {
@@ -53,19 +66,61 @@ body {
 }
 
 .editing {
-    background-color: #66e266;
+    background-color: #00bbff;
 }
 
 .total-container {
     max-width: 400px;
 }
 
-ol > li {
-    text-align: left;
-}
-
 ol {
     width: 200px;
     margin: auto;
     float: inline-block;
+    li {
+        text-align: left;
+    }
+}
+
+/*navbar*/
+.navbar {
+    background-color: #323333;
+}
+
+.navbar-default {
+
+  a.navbar-brand {
+      color: white;
+  }
+
+  .navbar-brand:hover {
+      color: #7e7e7f;
+  }
+
+  .navbar-nav {
+    li > a {
+      color: white;
+    }
+
+    li > a:hover {
+      color: #7e7e7f;
+    }
+  }
+}
+
+.dropdown-menu {
+    min-width: 50px;
+    background-color: #323333;
+}
+
+.correct {
+  background-color: #60ff90;
+}
+
+.wrong {
+  background-color: #ff6060;
+}
+
+#total-score {
+  float: right;
 }

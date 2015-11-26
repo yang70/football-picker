@@ -1,81 +1,97 @@
 <h1>Week <%= @week.week %></h1>
+<h4>
+  <% if @week.week == get_current_week %>
+    <strong><%= link_to '< -', week_path(@week.week - 1) %> current week <%= link_to '- >', week_path(@week.week + 1) %></strong>
+  <% else %>
+    <strong><%= link_to '< -', week_path(@week.week - 1) %> week <%= link_to '- >', week_path(@week.week + 1) %></strong>
+  <% end %>
+</h4>
 <h2>Your Overall Score: <%= @total_score %></h2>
 <% if @weekly_score %>
-  <h2>Your Weekly Score: <%= @weekly_score %></h2>
+  <h2>Your score for this week: <%= @weekly_score %></h2>
 <% else %>
   <h2>You have no score for this week</h2>
 <% end %>
-<% @games.each do |game| %>
-  <div class="container game-container">
-    <% if game.home_score %>
-      <h3>Game Results</h3>
-      <table>
-        <tr>
-          <td><%= game.away_team %></td>
-          <td><%= game.away_score %></td>
-        </tr>
-        <tr>
-          <td><%= game.home_team %></td>
-          <td><%= game.home_score %></td>
-        </tr>
-        <tr>
-          <td><strong>Spread: </strong></td>
-          <td><%= game.away_team %> <%= game.spread_for_away_team %></td>
-        </tr>
-        <tr>
-          <td><strong>Spread winner: </strong></td>
-          <td><%= game.winner %></td>
-        </tr>
-        <tr>
-          <td><strong>Your pick: </strong></td>
-          <td><%= current_user.picks.find_by(game_id: game.id).winner %></td>
-        </tr>
-        <tr>
-          <td><strong>Correct: </strong></td>
-          <td><%= current_user.picks.find_by(game_id: game.id).correct %></td>
-        </tr>
-      </table>
+<div class="container">
+  <% @games.each do |game| %>
+    <% if current_user.picks.find_by(game_id: game.id).correct %>
+    <div class="col-md-4 game-container correct">
+    <% elsif current_user.picks.find_by(game_id: game.id).correct == false %>
+    <div class="col-md-4 game-container wrong">
     <% else %>
-      <h3><%= game.away_team %> <%= game.spread_for_away_team %> at <%= game.home_team %></h3>
-      <p><%= game.date_time.to_s(:game_time) %></p>
-      <strong>Your pick: </strong>
-      <div id="<%= dom_id(@game_picks[game]) %>">
-        <% if Time.now > game.date_time %>
-          <% if @game_picks[game].winner.nil? %>
-            <p>Too late, this game has started!</p>
-          <% else %>
-            <p><%= @game_picks[game].winner %></p>
-            <p><strong>*Pick locked, game has already started*</strong></p>
-          <% end %>
-        <% else %>
-          <% if @game_picks[game].winner.nil? %>
-            <p id="winner_<%= dom_id(@game_picks[game]) %>">You haven't made your pick yet!</p>
-          <% else %>
-            <p id="winner_<%= dom_id(@game_picks[game]) %>"><%= @game_picks[game].winner %></p>
-          <% end %>
-          <%= link_to "Update Pick", edit_pick_path(@game_picks[game]), remote: true, class: "btn btn-default" %>
-        <% end %>
-      </div>
-      <div id="edit_<%= dom_id(@game_picks[game]) %>" class="hidden">
-        <%= form_for @game_picks[game], remote: true do |f| %>
-          <% if @game_picks[game].errors.any? %>
-            <div id="error_explanation">
-              <h2><%= pluralize(@game_picks[game].errors.count, "error") %> prohibited
-                                                    this game_picks[game] from being saved:</h2>
-
-              <ul class="field_with_errors">
-              <%= @game_picks[game].errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
-              <% end %>
-              </ul>
-            </div>
-          <% end %>
-
-          <%= f.select :winner, ["#{game.home_team}", "#{game.away_team}"], class: "form-control" %>
-
-          <%= f.submit 'Update Pick', class: "btn btn-primary" %>
-        <% end %>
-      </div>
+    <div class="col-md-4 game-container">
     <% end %>
-  </div>
-<% end %>
+      <% if game.home_score %>
+        <h3>Game Results</h3>
+        <table class="results-table">
+          <tr>
+            <td><%= game.away_team %></td>
+            <td><%= game.away_score %></td>
+          </tr>
+          <tr>
+            <td><%= game.home_team %></td>
+            <td><%= game.home_score %></td>
+          </tr>
+          <tr>
+            <td><strong>Spread: </strong></td>
+            <td><%= game.away_team %> <%= game.spread_for_away_team %></td>
+          </tr>
+          <tr>
+            <td><strong>Spread winner: </strong></td>
+            <td><%= game.winner %></td>
+          </tr>
+          <tr>
+            <td><strong>Your pick: </strong></td>
+            <td><%= current_user.picks.find_by(game_id: game.id).winner %></td>
+          </tr>
+        </table>
+          <% if current_user.picks.find_by(game_id: game.id).correct %>
+            <h4>You got it right!</h4>
+          <% else %>
+              <h4>You got it wrong</h4>
+         <% end %>
+      <% else %>
+        <h4><%= game.away_team %> <%= game.spread_for_away_team %> at <%= game.home_team %></h4>
+        <p><%= game.date_time.to_s(:game_time) %></p>
+        <strong>Your pick: </strong>
+        <div id="<%= dom_id(@game_picks[game]) %>">
+          <% if Time.now > game.date_time %>
+            <% if @game_picks[game].winner.nil? %>
+              <p>Too late, this game has started!</p>
+            <% else %>
+              <p><%= @game_picks[game].winner %></p>
+              <p><strong>*Pick locked, game has already started*</strong></p>
+            <% end %>
+          <% else %>
+            <% if @game_picks[game].winner.nil? %>
+              <p id="winner_<%= dom_id(@game_picks[game]) %>">You haven't made your pick yet!</p>
+            <% else %>
+              <p id="winner_<%= dom_id(@game_picks[game]) %>"><%= @game_picks[game].winner %></p>
+            <% end %>
+            <%= link_to "Update Pick", edit_pick_path(@game_picks[game]), remote: true, class: "btn btn-default" %>
+          <% end %>
+        </div>
+        <div id="edit_<%= dom_id(@game_picks[game]) %>" class="hidden">
+          <%= form_for @game_picks[game], remote: true do |f| %>
+            <% if @game_picks[game].errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(@game_picks[game].errors.count, "error") %> prohibited
+                                                      this game_picks[game] from being saved:</h2>
+
+                <ul class="field_with_errors">
+                <%= @game_picks[game].errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <a><%= f.select :winner, ["#{game.home_team}", "#{game.away_team}"], class: "form-control" %></a>
+            <p></p>
+            <a><%= f.submit 'Update Pick', class: "btn btn-primary" %></a>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
