@@ -1,9 +1,12 @@
-<div class="container welcome-container">
+<div class="col-md-12 welcome-container">
   <h1>Welcome to Football Picker!</h1>
   <% if current_user %>
     <h3>Hello, <%= current_user.email %>!</h3>
   <% else %>
     <h3><%= link_to "Sign In", new_user_session_path, class: "btn btn-lg btn-default" %></h3>
   <% end %>
-  <h4>Pick NFL games against the spread and see your results for each week and overall!  See how you stack up against your friends!</h4>
+  <h4>Make your picks of this week</h4>
+  <a href="<%= week_path(get_current_week) %>" class="btn btn-default">This Weeks Picks</a>
+  <h4>Review your picks from last week</h4>
+  <a href="<%= week_path(get_current_week - 1) %>" class="btn btn-default">Last Weeks Picks</a>
 </div>

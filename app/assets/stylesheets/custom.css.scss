@@ -57,8 +57,10 @@ body {
 .welcome-container {
     background-color: #6CADDE;
     border-radius: 10px;
-    max-width: 600px;
-    height: 300px;
+    width: 75%;
+    height: 400px;
+    display: inline-block;
+    float: none;
 }
 
 .btn {
@@ -102,9 +104,24 @@ ol {
       color: white;
     }
 
+    li > a:visited {
+      color: white;
+    }
+
     li > a:hover {
       color: #7e7e7f;
     }
+
+  }
+}
+
+a.dropdown-toggle {
+  color: white;
+}
+
+.dropdown {
+  .open {
+    background-color: #606060;
   }
 }
 
@@ -123,4 +140,8 @@ ol {
 
 #total-score {
   float: right;
+}
+
+#description {
+  margin-top: 50px;
 }
