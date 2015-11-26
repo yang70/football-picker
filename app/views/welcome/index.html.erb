@@ -5,7 +5,7 @@
   <% else %>
     <h3><%= link_to "Sign In", new_user_session_path, class: "btn btn-lg btn-default" %></h3>
   <% end %>
-  <h4>Make your picks of this week</h4>
+  <h4>Make your picks for this week</h4>
   <a href="<%= week_path(get_current_week) %>" class="btn btn-default">This Weeks Picks</a>
   <h4>Review your picks from last week</h4>
   <a href="<%= week_path(get_current_week - 1) %>" class="btn btn-default">Last Weeks Picks</a>
