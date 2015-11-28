@@ -57,7 +57,8 @@
         <div id="<%= dom_id(@game_picks[game]) %>">
           <% if Time.now > game.date_time %>
             <% if @game_picks[game].winner.nil? %>
-              <p>Too late, this game has started!</p>
+              <p>Too late!</p>
+              <p> This game has started!</p>
             <% else %>
               <p><%= @game_picks[game].winner %></p>
               <p><strong>*Pick locked, game has already started*</strong></p>
