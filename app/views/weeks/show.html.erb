@@ -1,9 +1,9 @@
-<h1>Week <%= @week.week %></h1>
 <h4>
   <% if @week.week == get_current_week %>
-    <strong><%= link_to '< -', week_path(@week.week - 1) %> current week <%= link_to '- >', week_path(@week.week + 1) %></strong>
+    <h1><strong><%= link_to '<-', week_path(@week.week - 1) %> Week <%= @week.week %> <%= link_to '->', week_path(@week.week + 1) %></strong></h1>
+    <h4>*This is the current week*</h4>
   <% else %>
-    <strong><%= link_to '< -', week_path(@week.week - 1) %> week <%= link_to '- >', week_path(@week.week + 1) %></strong>
+    <h1><strong><%= link_to '<-', week_path(@week.week - 1) %> Week <%= @week.week %> <%= link_to '->', week_path(@week.week + 1) %></strong></h1>
   <% end %>
 </h4>
 <h2>Your Overall Score: <%= @total_score %></h2>
