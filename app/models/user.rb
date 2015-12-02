@@ -10,19 +10,17 @@ class User < ActiveRecord::Base
 
   after_create :setup_blank_picks, :setup_scores
 
-  def get_current_week
+  def self.send_weekly_email
     start = Time.parse("2015-09-01 01:00:00 -800")
 
-    (Time.now.to_date - start.to_date).to_i / 7
-  end
+    week = (Time.now.to_date - start.to_date).to_i / 7
 
-  def self.send_weekly_email
-    week = get_current_week - 1
+    last_week = week - 1
 
     users = User.all
 
     users.each do |user|
-      UserMailer.weekly_email(user, week).deliver_now
+      UserMailer.weekly_email(user, last_week).deliver_now
     end
   end
 
@@ -34,7 +32,13 @@ class User < ActiveRecord::Base
     end
   end
 
-  
+  protected
+
+  def get_current_week
+    start = Time.parse("2015-09-01 01:00:00 -800")
+
+    (Time.now.to_date - start.to_date).to_i / 7
+  end
 
   def setup_blank_picks
    games = Game.all
