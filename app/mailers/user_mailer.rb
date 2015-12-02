@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-  default from: "no_reply@football-picker.herokuapp.com"
+  default from: "Football_Picker@football-picker.herokuapp.com"
 
   def weekly_email(user, week)
     @user = user
