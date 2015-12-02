@@ -20,6 +20,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.send_reminder_email
+    users = User.all
+
+    users.each do |user|
+      UserMailer.reminder_email(user).deliver_now
+    end
+  end
+
   protected
 
   def get_current_week

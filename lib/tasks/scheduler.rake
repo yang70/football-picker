@@ -26,7 +26,16 @@ task :send_weekly_emails => :environment do
   if Time.now.strftime("%A") == "Wednesday"
     puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
     puts "Sending weekly score emails"
-    Game.send_weekly_email
+    User.send_weekly_email
+    puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+  end
+end
+
+task :send_reminder_emails => :environment do
+  if Time.now.strftime("%A") == "Thursday"
+    puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+    puts "Sending reminder emails"
+    User.send_reminder_email
     puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
   end
 end

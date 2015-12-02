@@ -7,4 +7,9 @@ class UserMailer < ApplicationMailer
     @weekly_score = WeeklyScore.find_by(user: @user, week_id: @week).score
     mail(to: @user.email, subject: "Football Picker - Week #{@week} results")
   end
+
+  def reminder_email(user)
+    @user = user
+    mail(to: @user.email, subject: "Football Picker - Reminder")
+  end
 end
