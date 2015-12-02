@@ -10,10 +10,14 @@ class User < ActiveRecord::Base
 
   after_create :setup_blank_picks, :setup_scores
 
-  def self.send_weekly_email(user)
+  def self.send_weekly_email
     week = get_current_week - 1
 
-    UserMailer.weekly_email(user, week).deliver_now
+    users = User.all
+
+    users.each do |user|
+      UserMailer.weekly_email(user, week).deliver_now
+    end
   end
 
   protected

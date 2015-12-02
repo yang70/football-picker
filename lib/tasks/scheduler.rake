@@ -21,3 +21,14 @@ task :update_user_scores => :environment do
     puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
   end
 end
+
+task :send_weekly_emails => :environment do
+  if Time.now.strftime("%A") == "Wednesday"
+    puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+    puts "Sending weekly score emails"
+    Game.send_weekly_email
+    puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+  end
+end
+
+
