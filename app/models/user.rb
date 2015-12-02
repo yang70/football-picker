@@ -28,8 +28,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  protected
-
   def get_current_week
     start = Time.parse("2015-09-01 01:00:00 -800")
 
