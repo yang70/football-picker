@@ -19,13 +19,11 @@ class Game < ActiveRecord::Base
     results = get_results(previous_week)
 
     results.each do |key, value|
-      if value[2] != "Jacksonville"
-        game = Game.find_by(home_team: value[2], week_id: previous_week)
-        game.away_score = value[1]
-        game.save
-        game.home_score = value[3]
-        game.save
-      end
+      game = Game.find_by(home_team: value[2], week_id: previous_week)
+      game.away_score = value[1]
+      game.save
+      game.home_score = value[3]
+      game.save
     end
   end
 
