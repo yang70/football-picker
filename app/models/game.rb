@@ -179,7 +179,7 @@ class Game < ActiveRecord::Base
 
     current_games = Game.where(week_id: current_week)
 
-    user = User.all
+    users = User.all
 
     users.each do |user|
       current_games.each do |game|
