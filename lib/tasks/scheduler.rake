@@ -48,4 +48,9 @@ task :send_reminder_emails => :environment do
   end
 end
 
+task :test_current_week => :environment do
+  week = get_current_week
+  puts "Week: " + week
+end
+
 
