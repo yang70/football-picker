@@ -61,7 +61,7 @@
               <p> This game has started!</p>
             <% else %>
               <p><%= @game_picks[game].winner %></p>
-              <p><strong>*Pick locked, game has already started*</strong></p>
+              <p><strong>Locked, game has already started</strong></p>
             <% end %>
           <% else %>
             <% if @game_picks[game].winner.nil? %>
@@ -69,7 +69,7 @@
             <% else %>
               <p id="winner_<%= dom_id(@game_picks[game]) %>"><%= @game_picks[game].winner %></p>
             <% end %>
-            <%= link_to "Update Pick", edit_pick_path(@game_picks[game]), remote: true, class: "btn btn-default" %>
+            <%= link_to "Submit", edit_pick_path(@game_picks[game]), remote: true, class: "btn btn-default" %>
           <% end %>
         </div>
         <div id="edit_<%= dom_id(@game_picks[game]) %>" class="hidden">
