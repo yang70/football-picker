@@ -17,7 +17,7 @@ class WeeksController < ApplicationController
     # get_results(2)
     # get_results(7)
     @week = Week.find(params[:id])
-    @games = @week.games
+    @games = @week.games.order(:date_time)
     @weekly_score = WeeklyScore.find_by(week_id: @week, user: current_user).score
     @total_score = TotalScore.find_by(user: current_user).score
     @game_picks = {}
